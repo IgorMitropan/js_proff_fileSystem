@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%=blocks.title%></title>
+
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="./css/style.css"/>
+
+    <script src="./bower_components/jquery/dist/jquery.js" defer></script>
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.js" defer></script>
+
+    <%-blocks.scripts%>
+</head>
+<body>
+<header>
+    <h1><%-blocks.title%></h1>
+</header>
+<section class="container">
+
+    <%-body -%>
+</section>
+<footer>
+    <%-blocks.footer%>
+</footer>
+</body>
+</html>

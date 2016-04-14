@@ -1,0 +1,24 @@
+<% layout('./layout/page') -%>
+<% block('title', 'FileSystem Web App'); %>
+
+<% block('scripts', '<script src="./fileSystem.js" defer></script>') %>
+
+<div id="container">
+    <div class="row row-content">
+        <div class="col-xs-12 ">
+            <div data-component="breadcrumbs">
+                <div data-selector="path" class="inlineDiv"></div>
+                <button data-selector="backButton" class="btn btn-primary js-hidden"> <-Back </button>
+            </div>
+        </div>
+    </div>
+    <div class="row row-content">
+        <fieldset>
+            <legend>Content</legend>
+            <div class="viewer">
+                <div data-component="dirViewer"></div>
+                <div data-component="fileViewer"></div>
+            </div>
+        </fieldset>
+    </div>
+</div>
