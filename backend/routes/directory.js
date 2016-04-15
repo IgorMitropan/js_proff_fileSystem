@@ -11,7 +11,12 @@ function readTree(dirPath) {
     var tree =  fs.readdirSync(dirPath);
 
     for (var i = 0; i < tree.length; i++) {
+        if (tree[i] === 'node_modules' ||  tree[i] === '.git') {
+            continue;
+        }
+
         var dirPathNew = dirPath + '/' + tree[i];
+
         normalizedTree[tree[i]] = (fs.statSync(dirPathNew).isDirectory()) ? readTree(dirPathNew) : {};
     }
 

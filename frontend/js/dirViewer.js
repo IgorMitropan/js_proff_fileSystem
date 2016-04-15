@@ -79,8 +79,15 @@ export default class DirViewer extends Component{
         let ourHTML = '<ul>' + '\n';
 
         for (let key in obj) {
-            ourHTML += '<li>' + '<span>' + key + '</span>' + '\n';
-            ourHTML +=this._renderTree(obj[key]);
+            let liChild = this._renderTree(obj[key]);
+
+            if (liChild) {
+                ourHTML += '<li class="folder">' + '<span>' + key + '</span>' + '\n'
+            } else {
+                ourHTML += '<li>' + '<span>' + key + '</span>' + '\n';
+            }
+
+            ourHTML += liChild;
             ourHTML +='\n'+'</li>';
         }
 

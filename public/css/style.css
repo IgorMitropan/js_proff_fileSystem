@@ -14,12 +14,21 @@ legend {
     color: grey;
 }
 h1 {
-    margin: 15px;
+    margin-left: 25px;
+    margin-bottom: 10px;
+    padding-left: 12px;
 }
-
 pre {
     margin: 0;
 }
+
+.folder {
+    list-style-image: url(../images/icon-folder.png);
+}
+ul {
+    list-style-image: none;
+}
+
 .viewer {
     max-height: 600px;
     overflow: auto;
@@ -27,6 +36,7 @@ pre {
 .inlineDiv {
     display: inline-block;
     vertical-align: middle;
+    margin-left: -9px;
 }
 .focused {
     padding: 1px;
