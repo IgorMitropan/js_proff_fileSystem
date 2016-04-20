@@ -13,12 +13,31 @@
         </div>
     </div>
     <div class="row row-content">
-        <fieldset>
-            <legend>Content</legend>
-            <div class="viewer">
-                <div data-component="dirViewer"></div>
-                <div data-component="fileViewer"></div>
+        <div class="col-xs-12 col-lg-6">
+            <fieldset>
+                <legend>Content</legend>
+                <div class="viewer">
+                    <div data-component="dirViewer"></div>
+                    <div data-component="fileViewer" class="js-hidden"></div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <fieldset>
+                <legend>Comments</legend>
+                <div class="commentsViewer">
+                    <div data-component="commentsViewer"></div>
+                </div>
+            </fieldset>
+            <br>
+            <div data-component="commentSender" class="commentSender js-hidden">
+                <textarea placeholder="Leave your comment here"  data-selector="text"></textarea>
+                <span></span>
+                <button data-selector="sendButton" class="btn btn-primary sendBtn">Send</button>
             </div>
-        </fieldset>
+
+
+        </div>
+
     </div>
 </div>

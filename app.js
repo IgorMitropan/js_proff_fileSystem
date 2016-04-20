@@ -57,8 +57,8 @@ app.use(function(err, req, res, next) {
     }
 });
 
-http.createServer(app).listen(config.get('port'), function(){
-    log.info('Express server listening on port ' + config.get('port'));
+http.createServer(app).listen(config.get('port'), config.get('IP'), function(){
+    log.info('Express server listening on port ' + config.get('port') + ' IP ' + config.get('IP'));
 });
 
 module.exports = app;

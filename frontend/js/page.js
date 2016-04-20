@@ -6,10 +6,13 @@ polyfills.installMatches(); //cross browser polyfill for 'matches' (does not sup
 polyfills.installClosest(); //cross browser polyfill for 'closest' (does not supported by IE)
 polyfills.installCustomEvent(); //cross browser polyfill for 'custom events' (does not supported by IE)
 
+import AjaxService from './ajaxService.js';
 
 import Breadcrumbs from './breadcrumbs.js';
 import DirViewer from './dirViewer.js';
 import FileViewer from './fileViewer.js';
+import CommentsViewer from './commentsViewer.js'
+import CommentSender from './commentSender.js'
 
 export default class Page {
     constructor(options) {
@@ -31,13 +34,32 @@ export default class Page {
             element: this._el.querySelector('[data-component="fileViewer"]')
         });
 
+        this._commentsViewer = new CommentsViewer({
+            element: this._el.querySelector('[data-component="commentsViewer"]')
+        });
+
+        this._commentSender = new CommentSender({
+            element: this._el.querySelector('[data-component="commentSender"]')
+        });
+        this._commentSender.on('send', this._sendComment.bind(this));
+
         this._activeViewer = this._dirViewer;
+        this._currentItemPath = null;
 
         this._loadDirContent();
     }
 
     _onItemWasSelected(event) {
         this._breadcrumbs.showPath(event.detail.path);
+
+        this._commentSender.show();
+
+        this._currentItemPath = event.detail.path;
+        let path = '/comments:' + event.detail.path;
+
+        AjaxService.ajax(path, {}).then(
+            this._commentsViewer.showContent.bind(this._commentsViewer),
+            this._commentsViewer.showLoadError.bind(this._commentsViewer));
     }
 
     _onFileWasDblClicked(event) {
@@ -46,10 +68,9 @@ export default class Page {
 
         let filePath = '/file:' + event.detail.filePath;
 
-        this._ajax(filePath, {
-            success: this._onContentLoad.bind(this),
-            error: this._onContentLoadError.bind(this)
-        });
+        AjaxService.ajax(filePath, {}).then(
+            this._fileViewer.showContent.bind(this._fileViewer),
+            this._fileViewer.showLoadError.bind(this._fileViewer));
     }
 
     _onBackWasClicked() {
@@ -57,46 +78,22 @@ export default class Page {
         this._breadcrumbs.toggleBackButton();
     }
 
+    _sendComment(event) {
+        AjaxService.ajax('/comment', {
+            method: 'POST',
+            body: {
+                path: this._currentItemPath,
+                comment: event.detail.comment
+            }
+        }).then(
+            this._commentWasSentSuccessfully.bind(this),
+            this._commentSender.showLoadError.bind(this._commentSender));
+    }
+
     _loadDirContent() {
-        this._ajax('/directory', {
-            success: this._onContentLoad.bind(this),
-            error: this._onContentLoadError.bind(this)
-        });
-    }
-
-    _ajax(url, options) {
-        let xhr = new XMLHttpRequest();
-
-        let method = options.method || 'GET';
-
-        xhr.open(method, url, true);
-
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-        xhr.onload = function() {
-            options.success(xhr.status, xhr.responseText);
-        };
-
-        xhr.onerror = function() {
-            options.error(new Error(xhr.responseText))
-        };
-
-        xhr.send();
-    }
-
-    _onContentLoad(status, data) {
-        if (status === 200 || status === 304) {
-            this._activeViewer.showContent(data);
-        } else {
-            let error = new Error(data);
-            error.status = status;
-            this._onContentLoadError(error);
-        }
-    }
-
-    _onContentLoadError(error) {
-        console.error(error);
-        this._activeViewer.showLoadError(error);
+        AjaxService.ajax('/directory', {}).then(
+            this._dirViewer.showContent.bind(this._dirViewer),
+            this._dirViewer.showLoadError.bind(this._dirViewer));
     }
 
     _changeActiveViewer() {
@@ -111,5 +108,10 @@ export default class Page {
 
             this._activeViewer = this._dirViewer;
         }
+    }
+
+    _commentWasSentSuccessfully(data) {
+        this._commentsViewer.addSentComment(JSON.parse(data));
+        this._commentSender.resetText();
     }
 }

@@ -3,7 +3,7 @@ let path = require('path');
 let webpack = require('webpack');
 
 module.exports = {
-    entry: "./frontend/js/main.js",
+    entry: ['babel-polyfill', './frontend/js/main.js'],
     output: {
         path: './public/',
         publicPath: './public/',

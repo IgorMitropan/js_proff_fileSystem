@@ -27,7 +27,7 @@ export default class Component {
     }
 
     showLoadError(err) {
-        this._el.innerHTML = '<h1>Error ' +err.status + '</h1>' + JSON.parse(err.message);
+        this._el.innerHTML = '<h1>Error ' +err.code + '</h1>' + JSON.parse(err.message);
     }
 
     on(eventName, handler) {

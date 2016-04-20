@@ -1,4 +1,6 @@
 {
-  "port": 8080,
-  "directory": "./"
+  "port": 3000,
+  "IP": "",
+  "directory": "./",
+  "connectionUrlToDB": "mongodb://localhost:27017/fileSystem"
 }

@@ -8,7 +8,7 @@ export default class Breadcrumbs extends Component{
         super(options);
         this._path = this._el.querySelector('[data-selector="path"]');
 
-        this._el.addEventListener('click', this._onBackClick.bind(this));
+        this.on('click', this._onBackClick.bind(this));
     }
 
     showPath(data) {
