@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
         } else {
             res.render('error', {
                 message: error.message,
-                error: (ENV === 'development') ? error : {}
+                error: (ENV === 'development') ? error : {status: error.status, stack: ''}
             });
         }
     };

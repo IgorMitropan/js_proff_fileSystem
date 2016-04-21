@@ -7,6 +7,10 @@ exports.sendFileSafe = function (filePath, res, next) {
             return next(new HttpError(404, 'File not found'));
         }
 
+        if (filePath.indexOf('config.json')> -1) {
+            return next(new HttpError(403, 'Access to this file content is forbidden'));
+        }
+
         sendFile(filePath, res, next);
     });
 };
