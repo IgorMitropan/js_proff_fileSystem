@@ -3,9 +3,9 @@ let path = require('path');
 let webpack = require('webpack');
 
 module.exports = {
-    entry: ['babel-polyfill', './frontend/js/main.js'],
+    entry: ['./frontend/js/main.js'],
     output: {
-        path: './public/',
+        path: './public/js/',
         publicPath: './public/',
         filename: "fileSystem.js"
     },
@@ -21,7 +21,7 @@ module.exports = {
             loader: 'babel',
             query: {
                 presets: ['es2015'],
-                plugins: ['transform-es2015-modules-commonjs']
+                plugins: ['transform-es2015-modules-commonjs', 'transform-runtime']
             }
         }]
     },

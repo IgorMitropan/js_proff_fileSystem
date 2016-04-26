@@ -1,5 +1,6 @@
-var fs = require('fs');
-var HttpError = require('../error').HttpError;
+'use strict';
+let fs = require('fs');
+let HttpError = require('../error').HttpError;
 
 exports.sendFileSafe = function (filePath, res, next) {
     fs.stat(filePath, function(err, stats) {
@@ -16,9 +17,9 @@ exports.sendFileSafe = function (filePath, res, next) {
 };
 
 function sendFile(filePath, res, next) {
-    var file = new fs.ReadStream(filePath);
+    let file = new fs.ReadStream(filePath);
 
-    var mime = require('mime').lookup(filePath);
+    let mime = require('mime').lookup(filePath);
     res.setHeader('Content-Type', mime + "; charset=utf-8");
 
     file.pipe(res);
@@ -26,7 +27,6 @@ function sendFile(filePath, res, next) {
     file.on('error', function(err) {
         next(500);
     });
-
 
     res.on('close', function() {
             file.destroy();

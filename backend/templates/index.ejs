@@ -1,16 +1,18 @@
 <% layout('./layout/page') -%>
 
 <% block('title', 'FileSystem Web App')%>
-<% block('scripts', '<script src="./fileSystem.js" defer></script>')%>
-<% block('descriptionTitle', 'Description:'); %>
-<% block('description', 'I hope you can see the content of the current project directory. '+
-                        'You can click on each item and see its path above and comments on the right. '+
-                        'Certainly you can live your own one or two. '+
-                        'Besides, each folder\'s content display toggles. '+
-                        'And finally you can see the file content by double clicking on it.')%>
 
+<% block('scripts', '<script src="./bower_components/jquery/dist/jquery.min.js" defer></script>'+
+                    '<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js" defer></script>'+
+                    '<script src="./js/fileSystem.js" defer></script>')%>
+
+<% block('header', 'Main page')%>
 
 <div id="container">
+    <% if (!user) { %>
+        <%-partial('./partials/loginModal')%>
+    <% } %>
+
     <div class="row row-content">
         <div class="col-xs-12 ">
             <div data-component="breadcrumbs">
@@ -37,14 +39,10 @@
                 </div>
             </fieldset>
             <br>
-            <div data-component="commentSender" class="commentSender js-hidden">
-                <textarea placeholder="Leave your comment here"  data-selector="text"></textarea>
-                <span></span>
-                <button data-selector="sendButton" class="btn btn-primary sendBtn">Send</button>
-            </div>
 
-
+            <% if (user) { %>
+                <%-partial('./partials/commentSenderComponent')%>
+            <% } %>
         </div>
-
     </div>
 </div>

@@ -1,5 +1,6 @@
-var winston = require('winston');
-var ENV = process.env.NODE_ENV;
+'use strict';
+const winston = require('winston');
+const ENV = process.env.NODE_ENV;
 
 function getLogger(module) {
 

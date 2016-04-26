@@ -12,12 +12,28 @@ legend {
     margin-bottom: 5px;
 }
 textarea {
-    width: 80%;
-    height: 68px;
-    resize: none;
+     width: 80%;
+     height: 68px;
+     resize: none;
 }
 pre {
     margin: 0;
+}
+
+.comment {
+    display: block;
+    margin-bottom: 8px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 500px;
+    background-color: #f5f5f5;
+}
+.commentHeader {
+    color: #000000;
+    margin-bottom: 1px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 .viewer {
@@ -52,21 +68,11 @@ li.folder {
 ul {
     list-style-image: none;
 }
-
 .focused {
     padding: 1px;
     border-radius: 4px;
     border: 1px solid lightgrey;
     background-color: lightgrey;
-}
-
-.comment {
-    margin-bottom: 8px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    max-width: 500px;
-    background-color: #f5f5f5;
 }
 
 .jumbotron {
@@ -75,6 +81,20 @@ ul {
     background: #7986CB;
     color: floralwhite;
 }
+.login-logout {
+    margin-top: 20px;
+    float:right;
+    list-style: none;
+    font-size: 24px;
+}
+.login-logout a {
+    color: floralwhite;
+}
+.login-logout a:hover {
+    font-size: 28px;
+    text-decoration: none;
+}
+
 .btn {
     padding: 8px 12px;
 }

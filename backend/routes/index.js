@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var HttpError = require('../error').HttpError;
+'use strict';
+const express = require('express');
+const router = express.Router();
 
-var ROOT = __dirname.split('\\').slice(0,-2).join('\\');
+let checkAuth = require('../middleware/checkAuth');
+let fileSystem = require('../lib/fileSystem');
 
 router.get('/', function (req, res, next) {
     res.render('index', {});
@@ -13,51 +13,45 @@ router.get('/', function (req, res, next) {
 router.get('/directory', require('./directory').get);
 
 /* GET file content */
-router.get('/file:*', function(req, res, next) {
-    var filePath = req.params[0];
-    filePath = checkPath(filePath, next);
+router.get('/file:*', checkAuth, function(req, res, next) {
+    let filePath = req.params[0];
+    filePath = fileSystem.checkPath(filePath, next);
+
     require('./file').sendFileSafe(filePath, res, next);
 });
 
+/* GET comments */
 router.get('/comments:*', function(req, res, next) {
-    var itemPath = req.params[0];
-    itemPath = checkPath(itemPath, next);
-    require('./comments').sendCommentsFromDB(itemPath, res, next);
+    let itemPath = req.params[0];
+    itemPath = fileSystem.checkPath(itemPath, next);
 
+    require('./comments').sendCommentsFromDB(itemPath, res, next);
 });
 
-router.post('/comment', function(req, res, next) {
-    var body = req.body;
+/* send comment */
+router.post('/comment', checkAuth, function(req, res, next) {
+    let obj = req.body;
 
-    if (body.path && body.comment) {
-        body.path = checkPath(body.path, next);
+    if (obj.item && obj.comment) {
+        obj.item = fileSystem.checkPath(obj.item, next);
+        obj.username = req.user.get('username');
+        obj.created = Date.now();
     } else {
         next(400);
     }
 
-    require('./comments').saveCommentToDB(body, res, next);
+    require('./comments').saveCommentToDB(obj, res, next);
 
 });
 
-function checkPath(checkingPath, next) {
-    try {
-        checkingPath = decodeURIComponent(checkingPath); // %D1%8F
-    } catch(e) {
-        return next(400);
-    }
+/* authorization */
+router.post('/login', require('./login').post);
 
-    if (~checkingPath.indexOf('\0')) {
-        return next(400);
-    }
+router.post('/logout', function(req, res, next) {
+    req.session.destroy();
+    res.redirect('/');
+});
 
-    checkingPath = path.normalize(path.join(ROOT, checkingPath));
-
-    if (checkingPath.indexOf(ROOT) !== 0) {
-        return next(new HttpError(404, 'Content not found'));
-    }
-
-    return checkingPath;
-}
 
 module.exports = router;
 

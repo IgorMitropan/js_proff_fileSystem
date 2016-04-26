@@ -11,8 +11,9 @@ import AjaxService from './ajaxService.js';
 import Breadcrumbs from './breadcrumbs.js';
 import DirViewer from './dirViewer.js';
 import FileViewer from './fileViewer.js';
-import CommentsViewer from './commentsViewer.js'
-import CommentSender from './commentSender.js'
+import CommentsViewer from './commentsViewer.js';
+import CommentSender from './commentSender.js';
+import LoginModal from './loginModal.js';
 
 export default class Page {
     constructor(options) {
@@ -38,10 +39,17 @@ export default class Page {
             element: this._el.querySelector('[data-component="commentsViewer"]')
         });
 
-        this._commentSender = new CommentSender({
-            element: this._el.querySelector('[data-component="commentSender"]')
-        });
-        this._commentSender.on('send', this._sendComment.bind(this));
+        let commentSender = this._el.querySelector('[data-component="commentSender"]');
+        if (commentSender) {
+            this._commentSender = new CommentSender({element: commentSender});
+            this._commentSender.on('send', this._sendComment.bind(this));
+        }
+
+        let loginModal = this._el.querySelector('[data-component="loginModal"]');
+        if (loginModal) {
+            this._loginModal = new LoginModal({element: loginModal});
+            this._loginModal.on('signIn', this._signIn.bind(this));
+        }
 
         this._activeViewer = this._dirViewer;
         this._currentItemPath = null;
@@ -49,10 +57,32 @@ export default class Page {
         this._loadDirContent();
     }
 
+//---------------- public method-----------------
+    signOut(event) {
+        event.preventDefault();
+
+        AjaxService.ajax('/logout', {
+            method: 'POST'
+        }).then(
+            this._changeUserStatus.bind(this));
+    }
+
+//------------------event handlers---------------
+    _signIn(event) {
+        AjaxService.ajax('/login', {
+            method: 'POST',
+            body: event.detail
+        }).then(
+            this._changeUserStatus.bind(this),
+            this._loginModal.showLoadError.bind(this._loginModal));
+    }
+
     _onItemWasSelected(event) {
         this._breadcrumbs.showPath(event.detail.path);
 
-        this._commentSender.show();
+        if (this._commentSender) {
+            this._commentSender.show();
+        }
 
         this._currentItemPath = event.detail.path;
         let path = '/comments:' + event.detail.path;
@@ -82,7 +112,7 @@ export default class Page {
         AjaxService.ajax('/comment', {
             method: 'POST',
             body: {
-                path: this._currentItemPath,
+                item: this._currentItemPath,
                 comment: event.detail.comment
             }
         }).then(
@@ -90,6 +120,7 @@ export default class Page {
             this._commentSender.showLoadError.bind(this._commentSender));
     }
 
+//----------------subordinate private methods--------------
     _loadDirContent() {
         AjaxService.ajax('/directory', {}).then(
             this._dirViewer.showContent.bind(this._dirViewer),
@@ -113,5 +144,9 @@ export default class Page {
     _commentWasSentSuccessfully(data) {
         this._commentsViewer.addSentComment(JSON.parse(data));
         this._commentSender.resetText();
+    }
+
+    _changeUserStatus() {
+        location.reload();
     }
 }

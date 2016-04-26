@@ -1,7 +1,12 @@
 'use strict';
 import Page from './page.js';
 
-new Page({
+let page = new Page({
    element: document.getElementById('container')
 });
+
+let logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', page.signOut.bind(page));
+}
 

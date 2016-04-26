@@ -1,4 +1,5 @@
-var ENV = process.env.NODE_ENV;
+'use strict';
+const ENV = process.env.NODE_ENV;
 
 module.exports = function(req, res, next) {
 
