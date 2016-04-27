@@ -1,0 +1,17 @@
+<% if (user) { %>
+    <h3>Hello, <%=user.get('username')%>!</h3>
+    <p>
+        I hope you can see the content of the current project directory.
+        You can click on each item and see its path above and comments on the right.
+        Besides, each folder's content display toggles. <br>
+        Choose any item to live your own comments and double click on file item to see its content.
+    </p>
+<% } else { %>
+    <h3>Description:</h3>
+    <p>
+        I hope you can see the content of the current project directory.
+        You can click on each item and see its path above and comments on the right.
+        Besides, each folder's content display toggles. <br>
+        <b>You need to log in</b> to live your own comments and to see the file content by double clicking on it.
+    </p>
+<% } %>

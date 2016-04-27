@@ -1,0 +1,112 @@
+fieldset {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid grey;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: auto;
+}
+legend {
+    color: grey;
+    margin-bottom: 5px;
+}
+textarea {
+     width: 80%;
+     height: 68px;
+     resize: none;
+}
+pre {
+    margin: 0;
+}
+
+.comment {
+    display: block;
+    margin-bottom: 8px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 500px;
+    background-color: #f5f5f5;
+}
+.commentHeader {
+    color: #000000;
+    margin-bottom: 1px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.viewer {
+    height: 500px;
+    width: 500px;
+    overflow: auto;
+}
+.commentsViewer {
+    height: 400px;
+    width: 500px;
+    overflow: auto;
+}
+.commentSender {
+    width: 80%;
+    height: 90px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid grey;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.inlineDiv {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+li.folder {
+    list-style-image: url(../images/icon-folder.png);
+}
+ul {
+    list-style-image: none;
+}
+.focused {
+    padding: 1px;
+    border-radius: 4px;
+    border: 1px solid lightgrey;
+    background-color: lightgrey;
+}
+
+.jumbotron {
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background: #7986CB;
+    color: floralwhite;
+}
+.login-logout {
+    margin-top: 20px;
+    float:right;
+    list-style: none;
+    font-size: 24px;
+}
+.login-logout a {
+    color: floralwhite;
+}
+.login-logout a:hover {
+    font-size: 28px;
+    text-decoration: none;
+}
+
+.btn {
+    padding: 8px 12px;
+}
+.btn-primary {
+    background-color: #7986CB;
+    border-color: #7986CB;
+}
+.sendBtn {
+    width: 18%;
+    margin-top: -60px;
+}
+
+.js-hidden {
+    display: none;
+}
