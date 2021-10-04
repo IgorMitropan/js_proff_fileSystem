@@ -1,0 +1,48 @@
+<% layout('./layout/page') -%>
+
+<% block('title', 'FileSystem Web App')%>
+
+<% block('scripts', '<script src="./bower_components/jquery/dist/jquery.min.js" defer></script>'+
+                    '<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js" defer></script>'+
+                    '<script src="./js/fileSystem.js" defer></script>')%>
+
+<% block('header', 'Main page')%>
+
+<div id="container">
+    <% if (!user) { %>
+        <%-partial('./partials/loginModal')%>
+    <% } %>
+
+    <div class="row row-content">
+        <div class="col-xs-12 ">
+            <div data-component="breadcrumbs">
+                <div data-selector="path" class="inlineDiv"></div>
+                <button data-selector="backButton" class="btn btn-primary js-hidden"> <-Back </button>
+            </div>
+        </div>
+    </div>
+    <div class="row row-content">
+        <div class="col-xs-12 col-lg-6">
+            <fieldset>
+                <legend>Content</legend>
+                <div class="viewer">
+                    <div data-component="dirViewer"></div>
+                    <div data-component="fileViewer" class="js-hidden"></div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <fieldset>
+                <legend>Comments</legend>
+                <div class="commentsViewer">
+                    <div data-component="commentsViewer"></div>
+                </div>
+            </fieldset>
+            <br>
+
+            <% if (user) { %>
+                <%-partial('./partials/commentSenderComponent')%>
+            <% } %>
+        </div>
+    </div>
+</div>

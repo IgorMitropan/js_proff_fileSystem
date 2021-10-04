@@ -1,0 +1,27 @@
+{
+  "port": 3000,
+  "IP": "",
+  "directory": "c:\\Users\\Junior\\IdeaProjects\\TEAM Professional JS\\js_proff_fileSystem",
+  "connectionUrlToDB": "mongodb://localhost:27017/fileSystem",
+  "mongoose": {
+    "uri": "mongodb://localhost/fileSystem",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  },
+  "session": {
+    "secret": "IKnowWhoKilledKennedy",
+    "resave": true,
+    "saveUninitialized": false,
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
+  }
+}
